@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$JOEY - Meet Joey</title>
+<meta name="description" content="Meet Joey. Joey will bring back Internet Meme Culture.">
+<meta property="og:title" content="$JOEY - Meet Joey">
+<meta property="og:image" content="images/joey-hero.webp">
+<link rel="icon" href="images/joey-hero.webp">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b0b0b;--paper:#fff;--live:#e5271c}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:500;color:var(--ink);background:var(--paper)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+/* page 1 */
+.hero{position:relative;min-height:100svh;padding:72px 16px 130px;display:flex;flex-direction:column;align-items:center}
+.hero img{display:block;width:min(90vw,calc(64svh*1.024));aspect-ratio:1024/1000;object-fit:cover}
+.hero h1{position:relative;margin-top:-.36em;font-family:Unbounded,sans-serif;font-weight:900;font-size:clamp(3rem,11.5vw,12rem);
+ line-height:.9;letter-spacing:-.045em;white-space:nowrap}
+.hero p{margin-top:12px;font-family:'Permanent Marker',cursive;font-size:clamp(1.15rem,2.9vw,2.1rem);text-align:center;line-height:1.2;max-width:22em}
+.down{position:absolute;left:50%;bottom:22px;translate:-50% 0;width:52px;height:52px;display:grid;place-items:center;background:var(--ink);border:2px solid var(--ink);z-index:2;animation:drop 1.6s ease-in-out infinite;transition:background .12s}
+.down svg{width:26px;height:26px;stroke:var(--paper);fill:none;stroke-width:2.6;stroke-linecap:square;transition:stroke .12s}
+.down:hover{background:var(--paper)}.down:hover svg{stroke:var(--ink)}
+@keyframes drop{50%{translate:-50% 9px}}
+
+.mcap{position:fixed;top:18px;left:20px;z-index:3;line-height:1;background:var(--paper);padding:6px 10px 6px 0}
+.mcap small{display:flex;align-items:center;gap:7px;font-weight:700;font-size:.85rem;margin-bottom:6px}
+.mcap small::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.mcap b{font-family:Unbounded,sans-serif;font-weight:900;font-size:clamp(1.4rem,3.2vw,2.1rem);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+
+.corner{position:absolute;right:20px;top:18px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:2}
+.socials{display:flex;gap:8px}
+.xbtn{width:52px;height:52px;display:grid;place-items:center;background:var(--ink);border:2px solid var(--ink);transition:background .12s}
+.xbtn svg{width:22px;height:22px;fill:var(--paper);transition:fill .12s}
+.xbtn:hover{background:var(--paper)}.xbtn:hover svg{fill:var(--ink)}
+.ca{font:inherit;font-weight:700;font-size:.95rem;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:12px 16px;cursor:pointer;
+ display:flex;align-items:center;gap:12px;max-width:calc(100vw - 40px);transition:background .12s,color .12s}
+.ca span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:min(46ch,58vw)}
+.ca i{font-style:normal;opacity:.6;font-weight:500;border-left:1px solid currentColor;padding-left:12px}
+.ca:hover{background:var(--paper);color:var(--ink)}
+
+
+.next{position:absolute;right:20px;top:50%;translate:0 -50%;width:56px;height:56px;display:grid;place-items:center;background:var(--ink);border:2px solid var(--ink);z-index:2;transition:background .12s,translate .15s}
+.next svg{width:26px;height:26px;stroke:var(--paper);fill:none;stroke-width:2.6;stroke-linecap:square;transition:stroke .12s}
+.next:hover{background:var(--paper);translate:4px -50%}.next:hover svg{stroke:var(--ink)}
+@media (max-width:700px){.hero{padding-top:150px;padding-bottom:160px}.next{top:auto;bottom:90px;translate:0 0}.next:hover{translate:4px 0}}
+
+.prev{position:absolute;left:20px;top:50%;translate:0 -50%;width:56px;height:56px;display:grid;place-items:center;background:var(--ink);border:2px solid var(--ink);z-index:2;transition:background .12s,translate .15s}
+.prev svg{width:26px;height:26px;stroke:var(--paper);fill:none;stroke-width:2.6;stroke-linecap:square;transition:stroke .12s}
+.prev:hover{background:var(--paper);translate:-4px -50%}.prev:hover svg{stroke:var(--ink)}
+@media (max-width:700px){.prev{top:auto;bottom:90px;translate:0 0}.prev:hover{translate:-4px 0}}
+
+/* story (second screen) */
+.deco{position:fixed;z-index:0;width:clamp(90px,12vw,200px);aspect-ratio:1;opacity:0;transition:opacity .5s;pointer-events:none}
+.deco.on{opacity:.2}
+.deco img{width:100%;height:100%;object-fit:cover;display:block}
+.deco.l{left:2.5vw;top:30%}.deco.r{right:2.5vw;bottom:10%}
+.story{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:110px 20px 90px}
+.story h2{font-family:Unbounded,sans-serif;font-weight:900;letter-spacing:-.045em;line-height:1;font-size:clamp(1.9rem,5vw,4.2rem);margin-top:clamp(56px,9vw,110px)}
+.story h2.lead{font-size:clamp(2.1rem,6.4vw,5.6rem);margin-top:0}
+.story p{font-size:clamp(1.1rem,1.7vw,1.4rem);line-height:1.55;max-width:36em;margin-top:22px}
+.story p.mk{font-family:'Permanent Marker',cursive;font-size:clamp(1.3rem,3vw,2.3rem);line-height:1.25;max-width:24em;margin-top:clamp(28px,4vw,44px)}
+.story p.end{margin-top:clamp(56px,9vw,110px)}
+.story footer{margin-top:80px;font-size:.85rem;opacity:.65;max-width:620px}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;background:var(--ink);color:var(--paper);padding:12px 20px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .15s;z-index:9}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="mcap" aria-live="polite"><small>Market cap</small><b id="mcap">Pre-launch</b></div>
+
+  <img src="images/joey-hero.webp" alt="Joey, a smiling golden dachshund puppy">
+  <h1>Meet Joey.</h1>
+  <p>Joey will bring back Internet Meme Culture</p>
+
+  <a class="prev" href="vision.html" aria-label="Read the developer’s vision"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 5l-7 7 7 7"/></svg></a>
+
+  <a class="next" href="pfp.html" aria-label="Pick a Joey pfp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
+
+  <a class="down" href="#story" aria-label="Keep scrolling"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg></a>
+
+  <div class="corner">
+    <div class="socials">
+  <a class="xbtn" id="xlink" href="https://x.com/YoiamJoey" target="_blank" rel="noopener" aria-label="Joey on X">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+      <a class="xbtn" id="tlink" href="https://www.tiktok.com/@yoiamjoey" target="_blank" rel="noopener" aria-label="Joey on TikTok">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+    </div>
+    <button class="ca" id="ca" type="button" aria-label="Copy contract address">CA<span id="catext">Coming soon</span><i>Copy</i></button>
+  </div>
+</header>
+
+<div class="deco l" aria-hidden="true"><img src="images/deco-christmas.webp" alt=""></div>
+<div class="deco r" aria-hidden="true"><img src="images/deco-easter.webp" alt=""></div>
+
+<main class="story" id="story">
+  <h2 class="lead">Memecoins lost their way. Joey wants to bring them back.</h2>
+
+  <p class="mk">Bundling. Cashback. Pair vamps. Devs putting zero effort into their projects.</p>
+  <p>The Solana memecoin scene has become more about extracting value than building something people actually want to be part of.</p>
+  <p>But most of the biggest memecoin runners were born in this exact ecosystem.</p>
+
+  <h2>Meet $Joey.</h2>
+  <p>Joey believes in keeping things simple.</p>
+  <p class="mk">No cashback. No pair. No vamps. No unnecessary bullshit.</p>
+  <p>Just a dev who actually runs his project, puts in the work, and builds a community around it.</p>
+
+  <h2>Joey is bringing back BAGWORKING.</h2>
+  <p>I’ll be bagworking 24/7, creating content, pushing the narrative, spreading Joey across every social platform, and making sure people realize what we’re building.</p>
+
+  <p class="mk end">Joey isn’t famous yet, but he will be soon.</p>
+
+  <footer>$JOEY is a memecoin with no intrinsic value and no promise of returns. This is not financial advice. Only spend what you can afford to lose.</footer>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script src="mcap.js"></script>
+<script>
+const $=id=>document.getElementById(id), toastEl=$("toast");
+let tt; function toast(m){toastEl.textContent=m;toastEl.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove("on"),1800)}
+
+// contract address (set it in config.js)
+if(CA){$("catext").textContent=CA}
+$("ca").onclick=async()=>{
+  if(!CA) return toast("Contract address drops at launch");
+  try{await navigator.clipboard.writeText(CA)}catch(e){const t=document.createElement("textarea");t.value=CA;document.body.append(t);t.select();document.execCommand("copy");t.remove()}
+  toast("CA copied")
+};
+
+// faint background Joeys only show while the story is on screen
+const decos=document.querySelectorAll(".deco");
+new IntersectionObserver(([e])=>decos.forEach(d=>d.classList.toggle("on",e.isIntersecting)),{threshold:.08}).observe($("story"));
+</script>
+</body>
+</html>

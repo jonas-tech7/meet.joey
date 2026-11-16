@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$JOEY - Become a Joey</title>
+<meta name="description" content="Change your pfp to become one of us.">
+<meta property="og:title" content="$JOEY - Become a Joey">
+<meta property="og:image" content="images/joey-hero.webp">
+<link rel="icon" href="images/joey-hero.webp">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b0b0b;--paper:#fff;--live:#e5271c}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:500;color:var(--ink);background:var(--paper)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+.mcap{position:fixed;top:18px;left:20px;z-index:3;line-height:1;background:var(--paper);padding:6px 10px 6px 0}
+.mcap small{display:flex;align-items:center;gap:7px;font-weight:700;font-size:.85rem;margin-bottom:6px}
+.mcap small::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.mcap b{font-family:Unbounded,sans-serif;font-weight:900;font-size:clamp(1.4rem,3.2vw,2.1rem);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+
+.back{position:fixed;top:18px;right:20px;z-index:3;width:52px;height:52px;display:grid;place-items:center;background:var(--ink);border:2px solid var(--ink);transition:background .12s}
+.back svg{width:24px;height:24px;stroke:var(--paper);fill:none;stroke-width:2.6;stroke-linecap:square;transition:stroke .12s}
+.back:hover{background:var(--paper)}.back:hover svg{stroke:var(--ink)}
+
+.cult{min-height:100svh;padding:130px 20px 70px}
+.cult h1{font-family:Unbounded,sans-serif;font-weight:900;font-size:clamp(2.6rem,10vw,9rem);line-height:.9;letter-spacing:-.045em;max-width:1300px;margin:0 auto}
+.cult .sub{max-width:1300px;margin:18px auto 44px;font-family:'Permanent Marker',cursive;font-size:1.25rem}
+.grid{max-width:1300px;margin:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:36px 14px}
+.joey{all:unset;display:block;cursor:copy}
+.joey img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:opacity .12s}
+.joey span{display:flex;justify-content:space-between;margin-top:8px;font-weight:700;font-size:.95rem}
+.joey span::after{content:"Copy";opacity:.45;font-weight:500}
+.joey:hover img,.joey:focus-visible img{opacity:.82}
+.joey:hover span::after,.joey:focus-visible span::after{opacity:1;text-decoration:underline}
+.joey:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;background:var(--ink);color:var(--paper);padding:12px 20px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .15s;z-index:9}
+.toast.on{opacity:1}
+footer{max-width:1300px;margin:64px auto 0;font-size:.85rem;opacity:.65}
+footer p{max-width:620px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="mcap" aria-live="polite"><small>Market cap</small><b id="mcap">Pre-launch</b></div>
+<a class="back" href="index.html" aria-label="Back to Joey"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 5l-7 7 7 7"/></svg></a>
+
+<main class="cult">
+  <h1>Become a Joey</h1>
+  <p class="sub">Change your pfp to become one of us</p>
+  <div class="grid" id="grid"></div>
+  <footer><p>$JOEY is a memecoin with no intrinsic value and no promise of returns. This is not financial advice. Only spend what you can afford to lose.</p></footer>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script src="mcap.js"></script>
+<script>
+/* ====== EDIT HERE: add more Joeys with a new line ["Name","images/file.webp"], ====== */
+const GALLERY = [
+  ["Rugby Joey","images/rugby-joey.webp"],
+  ["Easter Joey","images/easter-joey.webp"],
+  ["Beach Joey","images/beach-joey.webp"],
+  ["Birthday Joey","images/birthday-joey.webp"],
+  ["Christmas Joey","images/christmas-joey.webp"],
+  ["Agent Joey","images/agent-joey.webp"],
+  ["Basic Joey","images/basic-joey.webp"],
+  ["Neon Joey","images/neon-joey.webp"]
+];
+/* ======================================================================================= */
+
+const toastEl=document.getElementById("toast"); let tt;
+function toast(m){toastEl.textContent=m;toastEl.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove("on"),1800)}
+const grid=document.getElementById("grid");
+grid.innerHTML=GALLERY.map(([n,s])=>`<button class="joey" type="button" data-s="${s}" data-n="${n}"><img src="${s}" alt="${n}" loading="lazy"><span>${n}</span></button>`).join("");
+function toPng(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>{const c=document.createElement("canvas");c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext("2d").drawImage(i,0,0);c.toBlob(b=>b?ok(b):no(),"image/png")};i.onerror=no;i.src=src})}
+grid.onclick=async e=>{
+  const b=e.target.closest(".joey"); if(!b) return;
+  try{await navigator.clipboard.write([new ClipboardItem({"image/png":toPng(b.dataset.s)})]);toast(b.dataset.n+" copied")}
+  catch(err){const a=document.createElement("a");a.href=b.dataset.s;a.download=b.dataset.n.replace(/\s+/g,"-").toLowerCase()+".webp";a.click();toast("Copy not supported here, saved the image instead")}
+};
+</script>
+</body>
+</html>
